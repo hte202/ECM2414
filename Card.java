@@ -1,8 +1,16 @@
-public class Card{
-    private int cardIndex;
-    private int cardValue;
+public final class Card{
+    
+    private final int value;
+    
+    public Card(int value){
+        this.value = value;
+    }
+    public int getValue(){
+        return value;
+    }
 
-    public Card(int cardValue){
-        this.cardValue = cardValue;
+    @Override
+    public String toString(){
+        return String.valueOf(value);
     }
 }
