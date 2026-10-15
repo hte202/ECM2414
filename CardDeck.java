@@ -1,20 +1,28 @@
-import java.io.*;
-import java.util.*;
+public class CardDeck{
 
-public abstract class CardDeck{
+    private final int id;
+    private final Deque<Card> cards = new ArrayDeque<>();
 
-    public int numberOfCards;
-}
-
-    public static void main(String[] args){
-        File myObj = new File("PlaceholderFileName.txt");
-        try(Scanner scanner = new Scanner(myObj)){
-            while(scanner.hasNextLine()){
-                String line = scanner.nextLine();
-            }
-        } catch(FileNotFoundException){
-            e.printStackTrace();
-            }
+    // Class contructor
+    public CardDeck(int id) {
+        this.id = id;
     }
+
+    // Getter for id
+    public int getId() {
+        return id;
+    }
+
+
+    // Synchronized methods
+    public synchronized void addToBottom(Card c) {
+        cards.addLast(c);
+    }
+    public synchronized Card drawFromTop() {
+        return cards.pollFirst();
+    }
+    public synchronized String contentsString() {
+        // to be completed
+    } 
 }
 
