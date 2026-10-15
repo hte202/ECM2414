@@ -17,14 +17,25 @@ public class CardDeck{
 
 
     // Synchronized methods
+
+    // Method to add card to bottom of deck (back of queue)
     public synchronized void addToBottom(Card c) {
         cards.addLast(c);
     }
+    // Method to draw a card from the top of the deck (front of queue)
     public synchronized Card drawFromTop() {
         return cards.pollFirst();
     }
+    // Method to write deck to a string
     public synchronized String contentsString() {
-        // to be completed
+        StringBuilder sb = new StringBuilder();
+        for (Card c : cards) {
+            if (sb.length() > 0 ) {
+                sb.append(" ");
+            }
+            sb.append(c.getValue());
+        }
+        return sb.toString();
     } 
 }
 
