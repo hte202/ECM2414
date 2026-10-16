@@ -25,6 +25,29 @@ public class Player implements Runnable{
         return playerNumber;
     }
 
+    public boolean hasFourOfAKind() {
+        int first = hand.get(0).getValue();
+        for (Card c : hand ){
+            if (c.getValue() != first) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    Card cardToDiscard() {
+        for (Card c : hand) {
+            if(c.getValue() != playerNumber){
+                return c;
+            }
+        }
+        throw new IllegalStateException("Player " + playerNumber + " has no card it is allowed to discard");
+    }
+
+    public int cardToDraw() {
+        // essentially deck n-1
+    }
+
     @Override
     public void run(){
         // to be completed
