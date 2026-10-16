@@ -15,7 +15,6 @@ public class CardDeck{
         return id;
     }
 
-
     // Synchronized methods
 
     // Method to add card to bottom of deck (back of queue)
