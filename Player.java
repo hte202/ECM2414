@@ -44,8 +44,43 @@ public class Player implements Runnable{
         throw new IllegalStateException("Player " + playerNumber + " has no card it is allowed to discard");
     }
 
-    public int cardToDraw() {
-        // essentially deck n-1
+    Card cardToDraw() {
+        Card drawn = left.drawFromTop();
+        if (drawn != null) {
+            hand.add(drawn);
+        }
+        return drawn;          
+    }
+
+    public String handToString() {
+        StringBuilder sb = new StringBuilder();
+        for (Card c : hand) {
+            if (sb.length() > 0) {
+                sb.append(" ");
+            }
+            sb.append(c.getValue());
+        }
+        return sb.toString();
+    }
+
+    void takeTurn() {
+        CardDeck first = left.getId() <= right.getId() ? left : right;
+        CardDeck second = (first == left) ? right : left;
+
+        synchronized (first) {
+            synchronized (second) {
+                Card drawn = cardToDraw();
+                if (drawn == null) {
+                    return;
+                }
+                Card discarded = cardToDiscard();
+
+                // To be changed to proper logging methods
+                System.out.println("player " + playerNumber + " draws a " + drawn + " from deck " + left.getId());
+                System.out.println("player " + playerNumber + " discards a " + discarded + " to deck " + right.getId());
+                System.out.println("player " + playerNumber + "'s current hand is " + handToString());
+            }
+        }
     }
 
     @Override
