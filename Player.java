@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
@@ -8,17 +9,29 @@ public class Player implements Runnable{
     private final CardDeck left;
     private final CardDeck right;
     private final AtomicInteger winner; //shared by all players, 0 means there is yet a winner
-    private final CountDownLatch instantWinner;
+    private final CountDownLatch startLatch;
     private final List<Card> hand = new ArrayList<>();
+
+    // for logging method
+    private PrintWriter out;
 
     public Player(
         int playerNumber, CardDeck left, CardDeck right, AtomicInteger winner, 
-    CountDownLatch instantWinner) {
+    CountDownLatch startLatch) {
         this.playerNumber = playerNumber;
         this.left = left;
         this.right = right;
         this.winner = winner;
-        this.instantWinner = instantWinner;
+        this.startLatch = startLatch;
+    }
+
+    private void log(String line) {
+        out.println(line);
+        // to define out in run function
+    }
+
+    public void addCard(Card card) {
+        hand.add(card);
     }
 
     public int getPlayerNumber() {
@@ -35,7 +48,7 @@ public class Player implements Runnable{
         return true;
     }
 
-    Card cardToDiscard() {
+    private Card cardToDiscard() {
         for (Card c : hand) {
             if(c.getValue() != playerNumber){
                 return c;
@@ -44,7 +57,14 @@ public class Player implements Runnable{
         throw new IllegalStateException("Player " + playerNumber + " has no card it is allowed to discard");
     }
 
-    Card cardToDraw() {
+    private Card discardCard() {
+        Card discard = cardToDiscard();
+        hand.remove(discard);
+        right.addToBottom(discard);
+        return discard;
+    }
+
+    private Card cardToDraw() {
         Card drawn = left.drawFromTop();
         if (drawn != null) {
             hand.add(drawn);
@@ -73,18 +93,59 @@ public class Player implements Runnable{
                 if (drawn == null) {
                     return;
                 }
-                Card discarded = cardToDiscard();
+                Card discarded = discardCard();
 
                 // To be changed to proper logging methods
-                System.out.println("player " + playerNumber + " draws a " + drawn + " from deck " + left.getId());
-                System.out.println("player " + playerNumber + " discards a " + discarded + " to deck " + right.getId());
-                System.out.println("player " + playerNumber + "'s current hand is " + handToString());
+                log("player " + playerNumber + " draws a " + drawn + " from deck " + left.getId());
+                log("player " + playerNumber + " discards a " + discarded + " to deck " + right.getId());
+                log("player " + playerNumber + " current hand is " + handToString());
             }
         }
     }
 
     @Override
     public void run(){
-        // to be completed
+
+        try(PrintWriter writer = new PrintWriter(new FileWriter("player" + playerNumber + "_output.txt"))) {
+            out = writer;
+                
+            // 1, initial hand
+            log("player " + playerNumber + " initial hand " + handToString());
+
+            // 2, check for immediate win
+            if (hasFourOfAKind()) {
+                winner.compareAndSet(0, playerNumber);
+            }
+
+            // 3, wait until all players have checked their dealt hand
+            startLatch.countDown();
+            startLatch.await();
+
+            // 4, play until someone has won
+            while (winner.get() == 0) {
+                takeTurn();
+                if (hasFourOfAKind()) {
+                    winner.compareAndSet(0, playerNumber);
+                }
+            }
+
+            // 5, finishing lines when game is won 
+            int w = winner.get();
+            if (w == playerNumber) {
+                System.out.println("player " + playerNumber + " wins");
+                log("player " + playerNumber + " wins");
+                log("player " + playerNumber + " exits");
+                log("player " + playerNumber + " final hand: " + handToString());
+            } else {
+                log("player " + w + " has informed player " + playerNumber + " that player " + w + " has won");
+                log("player " + playerNumber + " exits");
+                log("player " + playerNumber + " hand: " + handToString());
+            }
+
+        } catch (IOException e) {
+            System.err.println("player " + playerNumber + " could not write to output file: " + e.getMessage());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
