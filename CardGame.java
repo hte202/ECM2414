@@ -50,7 +50,15 @@ public class CardGame {
         }
     }
 
+    public static List<Card> loadPack(String path, int n) throws IOException{
+        List<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(path)));
 
+        while (!lines.isEmpty() && lines.get(lines.size() - 1).trim().isEmpty()) {
+            lines.remove(lines.size() - 1);
+        }
+        if (lines.size() != 8 * n) {
+            throw new IllegalArgumentException("pack must have " + (8 * n) + "lines, found " + lines.size());
+        } 
 
         List<Card> pack = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
@@ -92,12 +100,11 @@ public class CardGame {
         // first 4n cards
         for (int i = 0; i < 4 * n; i++) {
             players.get(i % n).addCard(pack.get(i));
-            // decks.get(i % n).addToBottom(pack.get(i));
         }
         // fill decks round-robin
         // last 4n cards
         for (int i = 4 * n; i < 8 * n; i++) {
-            decks.get((i - (4  * n)) % n).addToBottom(pack.get(i));
+            decks.get((i - 4 * n) % n).addToBottom(pack.get(i));
         }
 
         // start every player thread
