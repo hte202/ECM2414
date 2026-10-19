@@ -41,7 +41,6 @@ public class CardGame {
             System.out.println("Please enter location of pack to load:");
             String path = scanner.nextLine().trim();
             try{ 
-                // to implement loadPack method
                 return loadPack(path, n);
             } catch (IOException e) {
                 System.out.println("Could not read file :" + path);
