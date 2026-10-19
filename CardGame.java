@@ -41,7 +41,6 @@ public class CardGame {
             System.out.println("Please enter location of pack to load:");
             String path = scanner.nextLine().trim();
             try{ 
-                // to implement loadPack method
                 return loadPack(path, n);
             } catch (IOException e) {
                 System.out.println("Could not read file :" + path);
@@ -101,11 +100,12 @@ public class CardGame {
         // first 4n cards
         for (int i = 0; i < 4 * n; i++) {
             players.get(i % n).addCard(pack.get(i));
+            // decks.get(i % n).addToBottom(pack.get(i));
         }
         // fill decks round-robin
         // last 4n cards
         for (int i = 4 * n; i < 8 * n; i++) {
-            decks.get((i - 4 * n) % n).addToBottom(pack.get(i));
+            decks.get((i - (4  * n)) % n).addToBottom(pack.get(i));
         }
 
         // start every player thread

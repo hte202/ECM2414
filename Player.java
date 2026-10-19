@@ -99,6 +99,7 @@ public class Player implements Runnable{
                 log("player " + playerNumber + " draws a " + drawn + " from deck " + left.getId());
                 log("player " + playerNumber + " discards a " + discarded + " to deck " + right.getId());
                 log("player " + playerNumber + " current hand is " + handToString());
+                log("deck " + playerNumber + " current deck is " + left.contentsString());
             }
         }
     }
