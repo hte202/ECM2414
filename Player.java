@@ -84,8 +84,9 @@ public class Player implements Runnable{
     }
 
     void takeTurn() {
-        CardDeck first = left;
-        CardDeck second = right;
+        CardDeck first = left.getId() <= right.getId() ? left : right;
+        CardDeck second = (first == left) ? right : left;
+
         synchronized (first) {
             synchronized (second) {
                 Card drawn = cardToDraw();
@@ -98,7 +99,6 @@ public class Player implements Runnable{
                 log("player " + playerNumber + " draws a " + drawn + " from deck " + left.getId());
                 log("player " + playerNumber + " discards a " + discarded + " to deck " + right.getId());
                 log("player " + playerNumber + " current hand is " + handToString());
-                log("deck " + playerNumber + " current deck is " + left.contentsString());
             }
         }
     }
