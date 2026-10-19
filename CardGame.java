@@ -11,7 +11,7 @@ public class CardGame {
         // implement readPlayerCount method
         int n = readPlayerCount(scanner);
         // implement readPack method
-        List<Card> pack = readPack(scanner, n);
+        List<card> pack = readPack(scanner, n);
 
         try{
             playGame(n, pack);
@@ -36,7 +36,7 @@ public class CardGame {
         }
     }
 
-    static List<Card> readPack(Scanner scanner, int n) {
+    static List<card> readPack(Scanner scanner, int n) {
         while (true) {
             System.out.println("Please enter location of pack to load:");
             String path = scanner.nextLine().trim();
@@ -50,15 +50,7 @@ public class CardGame {
         }
     }
 
-    public static List<Card> loadPack(String path, int n) throws IOException{
-        List<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(path)));
 
-        while (!lines.isEmpty() && lines.get(lines.size() - 1).trim().isEmpty()) {
-            lines.remove(lines.size() - 1);
-        }
-        if (lines.size() != 8 * n) {
-            throw new IllegalArgumentException("pack must have " + (8 * n) + "lines, found " + lines.size());
-        } 
 
         List<Card> pack = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
