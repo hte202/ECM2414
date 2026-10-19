@@ -11,7 +11,7 @@ public class CardGame {
         // implement readPlayerCount method
         int n = readPlayerCount(scanner);
         // implement readPack method
-        List<Card> pack = readPack(scanner, n);
+        List<card> pack = readPack(scanner, n);
 
         try{
             playGame(n, pack);
@@ -36,7 +36,7 @@ public class CardGame {
         }
     }
 
-    static List<Card> readPack(Scanner scanner, int n) {
+    static List<card> readPack(Scanner scanner, int n) {
         while (true) {
             System.out.println("Please enter location of pack to load:");
             String path = scanner.nextLine().trim();
