@@ -84,9 +84,8 @@ public class Player implements Runnable{
     }
 
     void takeTurn() {
-        CardDeck first = left.getId() <= right.getId() ? left : right;
-        CardDeck second = (first == left) ? right : left;
-
+        CardDeck first = left;
+        CardDeck second = right;
         synchronized (first) {
             synchronized (second) {
                 Card drawn = cardToDraw();

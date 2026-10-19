@@ -25,6 +25,7 @@ public class CardDeck{
     public synchronized Card drawFromTop() {
         return cards.pollFirst();
     }
+
     // Method to write deck to a string
     public synchronized String contentsString() {
         StringBuilder sb = new StringBuilder();
