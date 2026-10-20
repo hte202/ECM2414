@@ -48,7 +48,7 @@ public class Player implements Runnable{
         return true;
     }
 
-    private Card cardToDiscard() {
+    public Card cardToDiscard() {
         for (Card c : hand) {
             if(c.getValue() != playerNumber){
                 return c;

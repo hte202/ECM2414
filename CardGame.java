@@ -8,9 +8,7 @@ public class CardGame {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        // implement readPlayerCount method
         int n = readPlayerCount(scanner);
-        // implement readPack method
         List<Card> pack = readPack(scanner, n);
 
         try{
@@ -41,7 +39,6 @@ public class CardGame {
             System.out.println("Please enter location of pack to load:");
             String path = scanner.nextLine().trim();
             try{ 
-                // to implement loadPack method
                 return loadPack(path, n);
             } catch (IOException e) {
                 System.out.println("Could not read file :" + path);
@@ -105,7 +102,7 @@ public class CardGame {
         // fill decks round-robin
         // last 4n cards
         for (int i = 4 * n; i < 8 * n; i++) {
-            decks.get((i - 4 * n) % n).addToBottom(pack.get(i));
+            decks.get((i - 4 * n) % n).addToBottom(pack.get(i)); 
         }
 
         // start every player thread

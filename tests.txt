@@ -1,0 +1,32 @@
+
+negativeValueIsRejected() [OK]
+decimalValueIsRejected() [OK]
+packWithTooManyLinesIsRejected() [OK]
+packWithTooFewLinesIsRejected() [OK]
+nonIntegerValueIsRejected() [OK]
+trailingBlankLineIsAccepted() [OK]
+fullGameHasOneWinnerFourCardHandsAndConservesCards() [OK]
+immediateWinIsDetectedAndAllFilesAreWritten() [OK]
+valuesLargerThanNAreAccepted() [OK]
+validPackIsLoadedInOrderIncludingZero() [OK]
+missingFileThrowsIOException() [OK]
+CardDeckTest [OK]
+contentsStringDoesNotRemoveCards() [OK]
+drawingFromAnEmptyDeckReturnsNull() [OK]
+contentsStringListsCardsFromTopToBottom() [OK]
+contentsStringOfAnEmptyDeckIsEmpty() [OK]
+drawsCardsInTheOrderTheyWereAdded() [OK]
+concurrentDrawsNeverHandOutTheSameCardTwice() [OK]
+concurrentDiscardsLoseNoCards() [OK]
+deckIsEmptyAgainAfterAllCardsAreDrawn() [OK]
+PlayerTest [OK]
+aTurnDrawsFromLeftDiscardsToRightAndKeepsFourCards() [X] Cannot invoke "java.io.PrintWriter.println(String)" because "this.out" is null
+aTurnWithAnEmptyLeftDeckChangesNothing() [OK]
+singlePlayerRingConservesCardsAndDoesNotDeadlock() [X] Cannot invoke "java.io.PrintWriter.println(String)" because "this.out" is null
+threeMatchingCardsIsNotAWin() [OK]
+twoPlayersTakingTurnsConcurrentlyDoNotDeadlockAndConserveCards() [OK]
+nonPreferredCardsAreNotHeldIndefinitely() [X] Cannot invoke "java.io.PrintWriter.println(String)" because "this.out" is null
+fourPreferredCardsIsAWin() [OK]
+fourMatchingNonPreferredCardsIsStillAWin() [OK]
+
+
