@@ -26,8 +26,9 @@ public class Player implements Runnable{
     }
 
     private void log(String line) {
-        out.println(line);
-        // to define out in run function
+        if (out != null) {
+            out.println(line);
+        }
     }
 
     public void addCard(Card card) {

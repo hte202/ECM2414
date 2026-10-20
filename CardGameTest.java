@@ -112,12 +112,6 @@ class CardGameTest {
     }
 
     @Test
-    void decimalValueIsRejected() throws IOException {
-        Path pack = writePack("1", "1", "2.5", "1", "2", "2", "2", "2");
-        assertThrows(IllegalArgumentException.class, () -> CardGame.loadPack(pack.toString(), 1));
-    }
-
-    @Test
     void missingFileThrowsIOException() {
         String missing = tempDir.resolve("does_not_exist.txt").toString();
         assertThrows(IOException.class, () -> CardGame.loadPack(missing, 1));

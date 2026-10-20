@@ -61,7 +61,7 @@ class PlayerTest {
 
     @Test
     void nonPreferredCardsAreNotHeldIndefinitely() {
-        // player 1 holds two non-preferred cards and keeps drawing 1s:
+        // player 1 holds two non-preferred cards and keeps drawing 1s
         // both non-preferred cards must leave, oldest first
         CardDeck left = deckWith(1, 1, 1);
         CardDeck right = new CardDeck(2);
